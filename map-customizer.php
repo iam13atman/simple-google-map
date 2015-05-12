@@ -107,9 +107,9 @@ function _sqmaps_map_size( $wp_customize ) {
 		array(
 			'default' => 400,
 			'type' => 'option',
-			'capability' => 'edit_theme_options',
-			'sanitize_callback' => 'intval',
-			'transport' => 'postMessage'
+			'capability' => 'manage_options',
+			'transport' => 'postMessage',
+			// 'sanitize_callback' => 'intval',
 		) 
 	);
 
@@ -132,9 +132,9 @@ function _sqmaps_map_size( $wp_customize ) {
 		array(
 			'default' => 400,
 			'type' => 'option',
-			'capability' => 'edit_theme_options',
-			'sanitize_callback' => 'intval',
-			'transport' => 'postMessage'
+			'capability' => 'manage_options',
+			'transport' => 'postMessage',
+			// 'sanitize_callback' => 'intval',
 		) 
 	);
 
@@ -171,12 +171,14 @@ function sgmaps_sanitize_checkbox( $input ) {
 }
 
 function sgmaps_customizer_styles() {
+	$height = get_option('google_map_height');
+	$width = get_option('google_map_width');
 	?>
 	<style type="text/css">
 
 		#map-canvas {
-			height: <?php echo get_option('google_map_height'); ?>;
-			width: <?php echo get_option('google_map_width'); ?>;
+			height: <?php echo $height . 'px'; ?>;
+			width: <?php echo $width . 'px'; ?>;
 		}
 
 	</style>
