@@ -152,6 +152,31 @@ function _sqmaps_map_size( $wp_customize ) {
 	    	),
 		) 
 	);
+	$wp_customize->add_setting( 
+		'google_map_zoom', 
+		array(
+			'default' => 14,
+			'type' => 'option',
+			'capability' => 'manage_options',
+			// 'transport' => 'postMessage',
+			// 'sanitize_callback' => 'intval',
+		) 
+	);
+
+	$wp_customize->add_control( 
+		'google_map_zoom', 
+		array(
+		    'type' => 'range',
+		    'setting' => 'google_map_zoom',
+		    'section' => 'map_general_settings',
+		    'label' => __( 'Map Zoom', 'sqmaps' ),
+		    'input_attrs' => array(
+		        'min' => 5,
+		        'max' => 30,
+		        'step' => .5,
+	    	),
+		) 
+	);
 }
 
 

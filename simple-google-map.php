@@ -65,8 +65,9 @@ function sgmaps_google_enqueue_scripts() {
 		'google_settings', 
 		array( 
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
-			'googleMarker' => get_option('display_map_marker'),
-			'googleAddress' => get_option('google_map_address')
+			'googleMarker' => get_option( intval( 'display_map_marker' ) ),
+			'googleAddress' => get_option( 'google_map_address' ),
+			'googleZoom' => get_option( 'google_map_zoom' )
 		) 
 	);
 

@@ -2,7 +2,7 @@ var map;
 function initialize() {
 	getCoordinates(google_settings.googleAddress, function(coords) {
 		var mapOptions = {
-		zoom: 14,
+		zoom: parseInt(google_settings.googleZoom),
 		scrollwheel: false,
 		center: new google.maps.LatLng(coords[0], coords[1]),
 		mapTypeId: google.maps.MapTypeId.ROADMAP
