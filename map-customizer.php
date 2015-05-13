@@ -39,6 +39,7 @@ function _sgmaps_general_section( $wp_customize ) {
 	_sgmaps_marker_setting( $wp_customize );
 	_sgmaps_maps_address( $wp_customize );
 	_sqmaps_map_size( $wp_customize );
+	_sgmaps_scroll_setting( $wp_customize );
 }
 function _sgmaps_style_section( $wp_customize ) {
 	$wp_customize->add_section( 'map_general_settings' , 
@@ -98,6 +99,25 @@ function _sgmaps_marker_setting( $wp_customize ) {
 	        'label' => __( 'Display Map Marker', 'sqmaps' ),
 	        'section' => 'map_general_settings',
 	        'setting' => 'display_map_marker'
+	    )
+	);
+}
+function _sgmaps_scroll_setting( $wp_customize ) {
+	$wp_customize->add_setting(
+    'google_map_scroll', array(
+	   		'default' => 1,
+	        'type' => 'option',
+	        'capability' => 'manage_options',
+	        'sanitize_callback' => 'sgmaps_sanitize_checkbox'
+	    )
+	);
+	$wp_customize->add_control(
+    'google_map_scroll', array(
+	        'type' => 'checkbox',
+	        'label' => __( 'Map Scroll', 'sqmaps' ),
+	        'section' => 'map_general_settings',
+	        'setting' => 'google_map_scroll',
+	        'description' => __('This setting controls whether or not the map scrolls on hover.', 'sqmaps' ),
 	    )
 	);
 }
