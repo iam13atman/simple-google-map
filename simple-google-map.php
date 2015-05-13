@@ -22,6 +22,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Enqueue Scripts and styles.
  */
@@ -89,14 +94,18 @@ function sgmaps_google_register_shortcode( $atts ) {
 }
 add_shortcode( 'simple_google_map', 'sgmaps_google_register_shortcode' );
 
-add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'add_action_links' );
+/**
+ * Add Settings Page link.
+ */
+function sgmaps_google_settings_links ( $links ) {
+	 
+	$mylinks = array(
+	'<a href="' . admin_url( 'tools.php?page=simple_google_maps' ) . '">Settings</a>',
+	);
 
-function add_action_links ( $links ) {
- $mylinks = array(
- '<a href="' . admin_url( 'tools.php?page=simple_google_maps' ) . '">Settings</a>',
- );
-return array_merge( $links, $mylinks );
+	return array_merge( $links, $mylinks );
 }
+add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'sgmaps_google_settings_links' );
 
 /**
  * Load Settings page.
