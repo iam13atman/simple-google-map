@@ -89,6 +89,15 @@ function sgmaps_google_register_shortcode( $atts ) {
 }
 add_shortcode( 'simple_google_map', 'sgmaps_google_register_shortcode' );
 
+add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'add_action_links' );
+
+function add_action_links ( $links ) {
+ $mylinks = array(
+ '<a href="' . admin_url( 'tools.php?page=simple_google_maps' ) . '">Settings</a>',
+ );
+return array_merge( $links, $mylinks );
+}
+
 /**
  * Load Settings page.
  */
