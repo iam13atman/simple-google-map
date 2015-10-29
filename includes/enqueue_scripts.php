@@ -10,8 +10,8 @@
 namespace SIMPLE_GOOGLE_MAPS\Scripts;
 
 function setup() {
-	add_action( 'admin_enqueue_scripts', 'enqueue_admin_scripts' );
-	add_action( 'wp_enqueue_scripts', 'enqueue_google_api_scripts' );
+	add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\enqueue_admin_scripts' );
+	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_google_api_scripts' );
 }
 
 /**

@@ -5,7 +5,7 @@ add_action( 'admin_init', 'sgmaps_settings_init' );
 
 function sgmaps_add_admin_menu(  ) { 
 
-	add_submenu_page( 'tools.php', 'Simple Google Maps', 'Simple Google Maps', 'manage_options', 'simple_google_maps', 'simple_google_maps_options_page' );
+	add_submenu_page( 'edit.php?post_type=google_map', 'Simple Google Maps', 'Simple Google Maps', 'manage_options', 'simple_google_maps', 'simple_google_maps_options_page' );
 
 }
 
