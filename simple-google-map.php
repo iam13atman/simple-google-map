@@ -22,64 +22,44 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+namespace SIMPLE_GOOGLE_MAPS;
+
+// Useful global constants
+define( 'SIMPLE_GOOGLE_MAPS_VERSION', '0.1.0' );
+define( 'SIMPLE_GOOGLE_MAPS_URL',     plugin_dir_url( __FILE__ ) );
+define( 'SIMPLE_GOOGLE_MAPS_PATH',    dirname( __FILE__ ) . '/' );
+
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
- * Enqueue Scripts and styles.
+ * Activate the plugin
  */
-function sgmaps_google_enqueue_scripts() {
-	//TODO: Need to add conditional checks for shortcode and customizer page.
-	wp_enqueue_script( 
-		'google_api', 
-		'https://maps.googleapis.com/maps/api/js?v=3.exp$sensor=false' ,
-		array() ,
-		'20150508', 
-		true 
-	);
-	wp_enqueue_script( 
-		'google_js', 
-		plugins_url('google-map.js', __FILE__) ,
-		array() ,
-		'20150508', 
-		true 
-	);
-	wp_enqueue_script( 
-		'geocoder_js', 
-		plugins_url('geocoder.js', __FILE__) ,
-		array() ,
-		'20150508', 
-		true 
-	);
-	wp_enqueue_script( 
-		'customizer_js', 
-		plugins_url('map-customizer.js', __FILE__) ,
-		array() ,
-		'20150508', 
-		true 
-	);
-	wp_enqueue_style( 
-		'google_css', 
-		plugins_url('google-map.css', __FILE__) ,
-		array() ,
-		'20150508'
-	);
-	wp_localize_script( 'google_js', 
-		'google_settings', 
-		array( 
-			'ajaxurl' => admin_url( 'admin-ajax.php' ),
-			'googleMarker' => get_option( 'display_map_marker' ),
-			'googleAddress' => get_option( 'google_map_address' ),
-			'googleZoom' => get_option( 'google_map_zoom' ),
-			'googleScroll' => get_option('google_map_scroll')
-		) 
-	);
+function simple_google_maps_activate() {
+
+	flush_rewrite_rules();
+}
+register_activation_hook( __FILE__, __NAMESPACE__ . '\simple_google_maps_activate' );
+
+/**
+ * Deactivate the plugin
+ * Uninstall routines should be in uninstall.php
+ */
+function simple_google_maps_deactivate() {
 
 }
-add_action( 'admin_enqueue_scripts', 'sgmaps_google_enqueue_scripts' );
-add_action( 'wp_enqueue_scripts', 'sgmaps_google_enqueue_scripts' );
+register_deactivation_hook( __FILE__, __NAMESPACE__ . '\simple_google_maps_deactivate' );
+
+/**
+ * Require Includes Directory Items
+ */
+require_once( SIMPLE_GOOGLE_MAPS_PATH . 'includes/settings.php' );
+require_once( SIMPLE_GOOGLE_MAPS_PATH . 'includes/map-customizer.php' );
+require_once( SIMPLE_GOOGLE_MAPS_PATH . 'includes/enqueue_scripts.php' );
+
+\SIMPLE_GOOGLE_MAPS\Scripts\setup();
 
 /**
  * Register Map Shortcode.
