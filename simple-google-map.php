@@ -7,6 +7,7 @@ Version: 1.0
 Author: Bobby Bryant
 Author URI: http://www.developwithwp.com
 License: GPL2
+Text Domain: simple-maps
 */
 /*
 Copyright 2015  Bobby Bryant  (email : bobby@hatrackmedia.com)
@@ -58,13 +59,15 @@ register_deactivation_hook( __FILE__, __NAMESPACE__ . '\simple_google_maps_deact
 require_once( SIMPLE_GOOGLE_MAPS_PATH . 'includes/settings.php' );
 require_once( SIMPLE_GOOGLE_MAPS_PATH . 'includes/map-customizer.php' );
 require_once( SIMPLE_GOOGLE_MAPS_PATH . 'includes/enqueue_scripts.php' );
+require_once( SIMPLE_GOOGLE_MAPS_PATH . 'includes/class_google_map.php' );
+//require_once( SIMPLE_GOOGLE_MAPS_PATH . 'includes/class_metabox.php' );
 
 \SIMPLE_GOOGLE_MAPS\Scripts\setup();
 
 /**
  * Register Map Shortcode.
  */
-function sgmaps_google_register_shortcode( $atts ) {
+function google_register_shortcode( $atts ) {
 	?>
 
 	<div id="map-canvas">
@@ -72,12 +75,12 @@ function sgmaps_google_register_shortcode( $atts ) {
 
 	<?php
 }
-add_shortcode( 'simple_google_map', 'sgmaps_google_register_shortcode' );
+add_shortcode( 'simple_google_map', __NAMESPACE__ . '\google_register_shortcode' );
 
 /**
  * Add Settings Page link.
  */
-function sgmaps_google_settings_links ( $links ) {
+function google_map_settings_links ( $links ) {
 	 
 	$mylinks = array(
 	'<a href="' . admin_url( 'tools.php?page=simple_google_maps' ) . '">Settings</a>',
@@ -85,14 +88,4 @@ function sgmaps_google_settings_links ( $links ) {
 
 	return array_merge( $links, $mylinks );
 }
-add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'sgmaps_google_settings_links' );
-
-/**
- * Load Settings page.
- */
-require 'settings.php';
-
-/**
- * Load Map Cusotmizer Page.
- */
-require 'map-customizer.php';
+add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), __NAMESPACE__ . '\google_map_settings_links' );
