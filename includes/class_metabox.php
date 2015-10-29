@@ -8,6 +8,7 @@
  */
 
 namespace SIMPLE_GOOGLE_MAPS\Metaboxes;
+use SIMPLE_GOOGLE_MAPS\Country_Select as Select;
 
 class Custom_Metaboxes {
 
@@ -99,7 +100,23 @@ class Custom_Metaboxes {
 	 * @param $post
 	 */
 	public function render_custom_metabox( $post ) {
-		echo '<div id="react-search"></div>';
+		$meta_data = 'something';
+		?>
+		<div id="google-map-metabox">
+			<label for="address-1">Address Line 1</label>
+			<input type="text" name="address_1" id="address-1"/>
+			<label for="address-2">Address Line 2</label>
+			<input type="text" name="address_2" id="address-2"/>
+			<label for="city">City</label>
+			<input type="text" name="city" id="city"/>
+			<label for="state">State/Province/Region</label>
+			<input type="text" name="state" id="state"/>
+			<label for="zipcode">Zip/ Postal Code</label>
+			<input type="text" name="zipcode" id="zipcode"/>
+			<?php echo new Select\Country_Select( $meta_data ); ?>
+		</div>
+
+		<?php
 	}
 
 	/**
