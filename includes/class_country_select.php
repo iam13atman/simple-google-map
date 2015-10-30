@@ -14,6 +14,7 @@ namespace SIMPLE_GOOGLE_MAPS\Country_Select;
 class Country_Select {
 	private $countries =
 		array(
+		   "US" => "United States",
 		   "AF" => "Afghanistan",
            "AX" => "Åland Islands",
            "AL" => "Albania",
@@ -244,7 +245,6 @@ class Country_Select {
            "UA" => "Ukraine",
            "AE" => "United Arab Emirates",
            "GB" => "United Kingdom",
-           "US" => "United States",
            "UM" => "United States Minor Outlying Islands",
            "UY" => "Uruguay",
            "UZ" => "Uzbekistan",
@@ -266,19 +266,19 @@ class Country_Select {
 		$this->meta_value = $meta_value;
 	}
 
-	public function is_selected( $value ) {
-		if ( ! empty ( $this->meta_value ) ) {
-			return selected( $this->meta_value, $value );
-		}
-		return false;
-	}
+//	public function is_selected( $value ) {
+//		if ( ! empty ( $this->meta_value ) ) {
+//			return selected( $this->meta_value, $value );
+//		}
+//		return false;
+//	}
 
 	public function display_country_select() {
 		$output = sprintf( '<select name="countries">' );
 		foreach( $this->countries as $key => $value ) {
 
 			$output .= sprintf( '<option value="%s"', esc_attr( $value ) );
-			$output .= $this->is_selected( $value ) . '>';
+			$output .= selected( $key, $this->meta_value ) . '>';
 			$output .= esc_html( $value ) . '</option>';
 		}
 		$output .= '</select>';
