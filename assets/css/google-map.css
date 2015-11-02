@@ -1,4 +1,6 @@
-#map-canvas {
-	height: 400px;
-	width: 400px;
+#google-map-input {
+    max-width: 50%;
+}
+.google-row label {
+    display: none;
 }
