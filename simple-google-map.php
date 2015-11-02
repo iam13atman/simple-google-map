@@ -59,6 +59,7 @@ register_deactivation_hook( __FILE__, __NAMESPACE__ . '\simple_google_maps_deact
 require_once( SIMPLE_GOOGLE_MAPS_PATH . 'includes/settings.php' );
 require_once( SIMPLE_GOOGLE_MAPS_PATH . 'includes/map-customizer.php' );
 require_once( SIMPLE_GOOGLE_MAPS_PATH . 'includes/enqueue_scripts.php' );
+require_once( SIMPLE_GOOGLE_MAPS_PATH . 'includes/helpers.php' );
 require_once( SIMPLE_GOOGLE_MAPS_PATH . 'includes/class_google_map.php' );
 require_once( SIMPLE_GOOGLE_MAPS_PATH . 'includes/class_metabox.php' );
 require_once( SIMPLE_GOOGLE_MAPS_PATH . 'includes/class_country_select.php' );

@@ -10,14 +10,14 @@
 namespace SIMPLE_GOOGLE_MAPS\Scripts;
 
 function setup() {
-	add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\enqueue_admin_scripts' );
-	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_google_api_scripts' );
+	add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\enqueue_google_map_scripts' );
+	add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_google_map_scripts' );
 }
 
 /**
  * Enqueue Scripts and styles.
  */
-function enqueue_google_api_scripts() {
+function enqueue_google_map_scripts() {
 	//TODO: Need to add conditional checks for shortcode and customizer page.
 	wp_enqueue_script(
 		'google_api',
@@ -28,14 +28,14 @@ function enqueue_google_api_scripts() {
 	);
 	wp_enqueue_script(
 		'google_js',
-		SIMPLE_GOOGLE_MAPS_URL . '/google-map.js',
+		SIMPLE_GOOGLE_MAPS_URL . '/assets/js/google-map.js',
 		array() ,
 		SIMPLE_GOOGLE_MAPS_VERSION,
 		true
 	);
 	wp_enqueue_script(
 		'geocoder_js',
-		SIMPLE_GOOGLE_MAPS_URL . '/geocoder.js',
+		SIMPLE_GOOGLE_MAPS_URL . '/assets/js/geocoder.js',
 		array() ,
 		SIMPLE_GOOGLE_MAPS_VERSION,
 		true
@@ -43,10 +43,11 @@ function enqueue_google_api_scripts() {
 
 	wp_enqueue_style(
 		'google_css',
-		SIMPLE_GOOGLE_MAPS_URL . '/google-map.css',
+		SIMPLE_GOOGLE_MAPS_URL . '/assets/css/google-map.css',
 		array() ,
 		SIMPLE_GOOGLE_MAPS_VERSION
 	);
+
 	wp_localize_script( 'google_js',
 		'google_settings',
 		array(
@@ -67,6 +68,13 @@ function enqueue_admin_scripts() {
 		array() ,
 		SIMPLE_GOOGLE_MAPS_VERSION,
 		true
+	);
+
+	wp_enqueue_style(
+		'google_css',
+		SIMPLE_GOOGLE_MAPS_URL . '/assets/css/google-map.css',
+		array() ,
+		SIMPLE_GOOGLE_MAPS_VERSION
 	);
 }
 
