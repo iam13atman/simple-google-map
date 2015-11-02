@@ -9,6 +9,7 @@
 
 namespace SIMPLE_GOOGLE_MAPS\Metaboxes;
 use SIMPLE_GOOGLE_MAPS\Country_Select as Select;
+use SIMPLE_GOOGLE_MAPS\Helpers as Helpers;
 
 class Custom_Metaboxes {
 
@@ -106,7 +107,10 @@ class Custom_Metaboxes {
 	}
 
 	protected function meta_value( $var, $default ) {
-		return empty( $var ) ? $default : $var;
+		if ( ! empty( $var ) ) {
+			return $var;
+		}
+		return $default;
 	}
 
 	/**
@@ -120,13 +124,16 @@ class Custom_Metaboxes {
 		<div id="google-map-input">
 			<?php
 			foreach( $this->meta_names as $key => $value ) {
-				printf( '<label for="%s">%s</label>', str_replace( '_', '-', $key ), $value );
-				printf( '<input type="text" class="metabox-row-content" size="60" name="%s" id="%s" value="%s"/>',
-					$key,
-					str_replace( '_', '-', $key ),
-					$this->meta_value( $meta_data[$key], '' )
-					);
 
+				?>
+				<div class="google-row">
+				<label for="<?php echo str_replace( '_', '-', $key ) ?>"><?php echo $value ?></label>
+				<input type="text" class="map-input" size="40" name="<?php echo $key ?>" id="<?php echo str_replace( '_', '-', $key ) ?>"
+				       value="<?php if ( ! empty ( $meta_data[$key] ) ) {
+					       echo esc_attr( $meta_data[$key] );
+				       } ?>"/>
+				</div>
+				<?php
 			}
 			?>
 
@@ -138,7 +145,11 @@ class Custom_Metaboxes {
 <!--			<input type="text" name="state" id="state"/>-->
 <!--			<label for="zipcode">Zip/ Postal Code</label>-->
 <!--			<input type="text" name="zipcode" id="zipcode"/>-->
-			<?php echo new Select\Country_Select( $meta_data['countries'] ); ?>
+			<?php
+			$country = Helpers\postmeta_value_exists( $meta_data, 'countries' );
+			echo new Select\Country_Select( $country );
+
+			 ?>
 		</div>
 		<div id="google-map-output">
 

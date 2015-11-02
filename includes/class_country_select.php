@@ -1,16 +1,13 @@
 <?php
 /**
- * Summary (no period for file headers)
+ * Simple Google Maps
+ * This class provides a Country specific select box.
  *
- * Description. (use period)
- *
- * @link URL
- * @since x.x.x (if available)
- *
- * @package WordPress
- * @subpackage Component
+ * @package Simple Google Maps
+ * @since 0.1.0
  */
 namespace SIMPLE_GOOGLE_MAPS\Country_Select;
+
 class Country_Select {
 	private $countries =
 		array(
@@ -274,14 +271,24 @@ class Country_Select {
 //	}
 
 	public function display_country_select() {
-		$output = sprintf( '<select name="countries">' );
-		foreach( $this->countries as $key => $value ) {
 
-			$output .= sprintf( '<option value="%s"', esc_attr( $value ) );
-			$output .= selected( $key, $this->meta_value ) . '>';
-			$output .= esc_html( $value ) . '</option>';
+		if ( ! empty( $this->meta_value ) ) {
+			$country = $this->meta_value;
+		} else {
+			$country = '';
+		}
+		$output = '<div class="google-row">';
+		$output .= '<label for="countries">Country</label>';
+		$output .= '<select name="countries">';
+		foreach( $this->countries as $key => $value ) {
+			$output .= sprintf( '<option value="%s" %s>%s</option>',
+				esc_attr( $value ),
+				selected( $this->meta_value, $value, false ),
+				esc_html(  $value)
+				);
 		}
 		$output .= '</select>';
+		$output .= '</div>';
 		return $output;
 	}
 
