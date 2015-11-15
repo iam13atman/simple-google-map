@@ -11,7 +11,7 @@ namespace SIMPLE_GOOGLE_MAPS\Country_Select;
 class Country_Select {
 	private $countries =
 		array(
-		   "US" => "United States",
+			"US" => "United States",
 		   "AF" => "Afghanistan",
            "AX" => "Åland Islands",
            "AL" => "Albania",
@@ -279,7 +279,8 @@ class Country_Select {
 		}
 		$output = '<div class="google-row">';
 		$output .= '<label for="countries">Country</label>';
-		$output .= '<select name="countries">';
+		$output .= '<select name="countries" id="countries">';
+		$output .= '<option value=""></option>';
 		foreach( $this->countries as $key => $value ) {
 			$output .= sprintf( '<option value="%s" %s>%s</option>',
 				esc_attr( $value ),

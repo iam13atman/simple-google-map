@@ -43,7 +43,7 @@ class Custom_Metaboxes {
 		);
 
 		add_action( 'add_meta_boxes', array( $this, 'register_custom_metabox' ) );
-		add_action( 'save_post', array( $this, 'save_custom_metabox_data' ) );
+		add_action( 'save_post_google_map', array( $this, 'save_custom_metabox_data' ) );
 //		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_scripts' ) );
 	}
 
@@ -128,33 +128,27 @@ class Custom_Metaboxes {
 				?>
 				<div class="google-row">
 				<label for="<?php echo str_replace( '_', '-', $key ) ?>"><?php echo $value ?></label>
-				<input type="text" class="map-input" size="40" name="<?php echo $key ?>" id="<?php echo str_replace( '_', '-', $key ) ?>"
+				<input type="text" class="map-input" size="40" placeholder="<?php echo $value ?>" name="<?php echo $key ?>" id="<?php echo str_replace( '_', '-', $key ) ?>"
 				       value="<?php if ( ! empty ( $meta_data[$key] ) ) {
 					       echo esc_attr( $meta_data[$key] );
 				       } ?>"/>
 				</div>
 				<?php
 			}
-			?>
 
-<!--			<label for="address-2">Address Line 2</label>-->
-<!--			<input type="text" name="address_2" id="address-2"/>-->
-<!--			<label for="city">City</label>-->
-<!--			<input type="text" name="city" id="city"/>-->
-<!--			<label for="state">State/Province/Region</label>-->
-<!--			<input type="text" name="state" id="state"/>-->
-<!--			<label for="zipcode">Zip/ Postal Code</label>-->
-<!--			<input type="text" name="zipcode" id="zipcode"/>-->
-			<?php
 			$country = Helpers\postmeta_value_exists( $meta_data, 'countries' );
 			echo new Select\Country_Select( $country );
 
 			 ?>
+			<input id="geolat" name="geolat" class="text" type="hidden" Value="<?php if ( ! empty ( $meta_data['geolat'] ) ) {
+				echo esc_attr( $meta_data['geolat'] );
+			} ?>"/>
+			<input id="geolng" name="geolng" class="text" type="hidden" Value="<?php if ( ! empty ( $meta_data['geolng'] ) ) {
+				echo esc_attr( $meta_data['geolng'] );
+			} ?>"/>
 		</div>
-		<div id="google-map-output">
 
-		</div>
-
+		<div id="map"></div>
 		<?php
 	}
 
@@ -173,28 +167,22 @@ class Custom_Metaboxes {
 			return;
 		}
 
-		if ( isset( $_POST[ 'address_1' ] ) ) {
-			update_post_meta( $post_id, 'address_1', sanitize_text_field( $_POST[ 'address_1' ] ) );
-		}
-
-		if ( isset( $_POST[ 'address_2' ] ) ) {
-			update_post_meta( $post_id, 'address_2', sanitize_text_field( $_POST[ 'address_2' ] ) );
-		}
-
-		if ( isset( $_POST[ 'city' ] ) ) {
-			update_post_meta( $post_id, 'city', sanitize_text_field( $_POST[ 'city' ] ) );
-		}
-
-		if ( isset( $_POST[ 'zipcode' ] ) ) {
-			update_post_meta( $post_id, 'zipcode', sanitize_text_field( $_POST[ 'zipcode' ] ) );
-		}
-
-		if ( isset( $_POST[ 'state' ] ) ) {
-			update_post_meta( $post_id, 'state', sanitize_text_field( $_POST[ 'state' ] ) );
+		foreach ( $this->meta_names as $key => $value ) {
+			if ( isset( $_POST[ $key ] ) ) {
+				update_post_meta( $post_id, $key, sanitize_text_field( $_POST[ $key ] ) );
+			}
 		}
 
 		if ( isset( $_POST[ 'countries' ] ) ) {
 			update_post_meta( $post_id, 'countries', sanitize_text_field( $_POST[ 'countries' ] ) );
+		}
+
+		if ( isset( $_POST[ 'geolat' ] ) ) {
+			update_post_meta( $post_id, 'geolat', filter_var( $_POST[ 'geolat' ], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION ) );
+		}
+
+		if ( isset( $_POST[ 'geolng' ] ) ) {
+			update_post_meta( $post_id, 'geolng', filter_var( $_POST[ 'geolng' ], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION ) );
 		}
 
 	}

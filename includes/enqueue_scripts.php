@@ -21,21 +21,14 @@ function enqueue_google_map_scripts() {
 	//TODO: Need to add conditional checks for shortcode and customizer page.
 	wp_enqueue_script(
 		'google_api',
-		'https://maps.googleapis.com/maps/api/js?v=3.exp$sensor=false' ,
+		'https://maps.googleapis.com/maps/api/js?key=AIzaSyBCkx0ZX-AskQJ7pu_QqBpmSdBUDhVwQdo' ,
 		array() ,
-		SIMPLE_GOOGLE_MAPS_VERSION,
+		'',
 		true
 	);
 	wp_enqueue_script(
 		'google_js',
 		SIMPLE_GOOGLE_MAPS_URL . '/assets/js/google-map.js',
-		array() ,
-		SIMPLE_GOOGLE_MAPS_VERSION,
-		true
-	);
-	wp_enqueue_script(
-		'geocoder_js',
-		SIMPLE_GOOGLE_MAPS_URL . '/assets/js/geocoder.js',
 		array() ,
 		SIMPLE_GOOGLE_MAPS_VERSION,
 		true
@@ -55,7 +48,8 @@ function enqueue_google_map_scripts() {
 			'googleMarker' => get_option( 'display_map_marker' ),
 			'googleAddress' => get_option( 'google_map_address' ),
 			'googleZoom' => get_option( 'google_map_zoom' ),
-			'googleScroll' => get_option('google_map_scroll')
+			'googleScroll' => get_option('google_map_scroll'),
+			'googleLatLng' => get_geolocation_data()
 		)
 	);
 
@@ -78,3 +72,17 @@ function enqueue_admin_scripts() {
 	);
 }
 
+function get_geolocation_data() {
+	$lat = get_post_meta( get_the_ID(), 'geolat', true );
+	$lng = get_post_meta( get_the_ID(), 'geolng', true );
+
+	if ( empty( $lat ) ) {
+		$lat = (int) -34.397;
+	}
+
+	if ( empty( $lng ) ) {
+		$lng = (int) 150.644;
+	}
+
+	return $location = array( $lat, $lng );
+}
